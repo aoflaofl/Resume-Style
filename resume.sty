@@ -1,0 +1,76 @@
+\ProvidesPackage{resume}
+\RequirePackage[l2tabu, orthodox]{nag}
+% Define Resume header values
+% The full name of the subject of the Resume
+\newcommand{\fullname}[1]{\gdef\@fullname{#1}}
+% The City, State and Zip code or other general location information
+\newcommand{\cityStateZip}[1]{\gdef\@cityStateZip{#1}}
+% Email address
+\newcommand{\email}[1]{\gdef\@email{#1}}
+% Phone number
+\newcommand{\phone}[1]{\gdef\@phone{#1}}
+% LinkedIn URL
+\newcommand{\linkedin}[1]{\gdef\@linkedin{#1}}
+
+%\usepackage[usenames,dvipsnames]{color}
+\newcommand{\smallcaps}[1]{\textsc{\textbf{#1}}}
+\newcommand{\@namehead}[1]{\centerline{{\LARGE #1}}}
+\newcommand{\hrulegray}{%
+%{\color{Gray}\hrule}%
+}
+
+%
+% The resume header
+% Uses @fullname, @cityStateZip, @email, @phone and @linkedin
+% If necessary to have full address, create another macro.
+%
+\newcommand{\resheader}{
+{\centering{\textbf{\LARGE\@fullname}} \\ %\medskip
+\@cityStateZip \\ %
+\texttt{\@email}\\}
+{\small\@phone} \hfill {\small\texttt{\@linkedin}}
+%\medskip
+\smallskip\hrule}
+
+\newcommand{\ressection}[1]{%
+%\bigskip%
+\medskip%
+\centerline{\textbf{\large #1}}}
+
+\RequirePackage{tabto}
+%\newcommand{\rescompany}[2]{\smallskip\textbf{\large #1}\hfill{\textbf{\large #2}}\hspace*{.75in}}
+% Header line for a company
+% #1 - Company Name
+% #2 - City, St
+% #3 - Year range
+\newcommand{\rescompany}[3]{%
+%\bigskip%
+\medskip%
+{\normalsize\textbf{\MakeUppercase{#1},} #2\tabto{5.5in}\textbf{#3}}%
+%\medskip%
+}
+
+%\newcommand{\resjob}[1]{\medskip\textbf{\normalsize #1}\smallskip}
+
+
+\RequirePackage{enumitem}
+\setlist{itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+\newenvironment{summarylist}{ %
+%\medskip %
+\begin{itemize}[leftmargin=2em,rightmargin=2em]}{\end{itemize}}
+\newenvironment{accomplishments}[2]
+{\smallskip\textbf{{\normalsize #1}} \\
+\smallskip%
+{\small #2}\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
+{\end{itemize}}
+
+\usepackage{microtype}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+\geometry{margin=1in}
+
+\pagestyle{empty}
+\usepackage[none]{hyphenat}
+\usepackage{ragged2e}\RaggedRight
+
