@@ -24,7 +24,7 @@
 % Uses @fullname, @cityStateZip, @email, @phone and @linkedin
 % If necessary to have full address, create another macro.
 %
-\newcommand{\resheader}{
+\newcommand{\resheader}{\thispagestyle{empty}
 {\centering{\textbf{\LARGE\@fullname}} \\ %\medskip
 \@cityStateZip \\ %
 \texttt{\@email}\\}
@@ -69,12 +69,14 @@
 \usepackage{geometry}
 \geometry{letterpaper}
 \geometry{margin=1in}
-
-\usepackage{fancyhdr}
+%
+% Set page header
+%
+\RequirePackage{fancyhdr}
 \pagestyle{fancy}
-
 \fancyfoot{}
-\fancyhead[CO,CE]{\@fullname \hfill \@phone/\@email \hfill \thepage}
+\fancyhead[LO,LE]{\textbf{\@fullname} \hfill \@phone/\texttt{\@email} \hfill Page \thepage}
+%
 \usepackage[none]{hyphenat}
 \usepackage{ragged2e}\RaggedRight
 
