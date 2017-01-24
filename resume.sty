@@ -58,10 +58,10 @@
 \newenvironment{summarylist}{ %
 %\medskip %
 \begin{itemize}[leftmargin=2em,rightmargin=2em]}{\end{itemize}}
-\newenvironment{accomplishments}[2]
-{\smallskip\textbf{{\normalsize #1}} \\
+\newenvironment{accomplishments}[3]
+{\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
 \smallskip%
-{\small #2}\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
+{\small #3}\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
 {\end{itemize}}
 
 \usepackage{microtype}
@@ -70,7 +70,11 @@
 \geometry{letterpaper}
 \geometry{margin=1in}
 
-\pagestyle{empty}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyfoot{}
+\fancyhead[CO,CE]{\@fullname \hfill \@phone/\@email \hfill \thepage}
 \usepackage[none]{hyphenat}
 \usepackage{ragged2e}\RaggedRight
 
