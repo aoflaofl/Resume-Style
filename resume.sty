@@ -1,41 +1,57 @@
 \ProvidesPackage{resume}
+% The closest thing to lint for LaTeX
 \RequirePackage[l2tabu, orthodox]{nag}
+%
+% Turn off hyphenation to make it look like Word
+%
+\RequirePackage[none]{hyphenat}
+%
+% Turn off right justification to make it look even more like Word
+% Also handles \parindent and \parskip.
+%
+\RequirePackage{ragged2e}\RaggedRight
+%
 % Define Resume header values
+%
 % The full name of the subject of the Resume
+%
 \newcommand{\fullname}[1]{\gdef\@fullname{#1}}
+%
 % The City, State and Zip code or other general location information
+%
 \newcommand{\cityStateZip}[1]{\gdef\@cityStateZip{#1}}
+%
 % Email address
+%
 \newcommand{\email}[1]{\gdef\@email{#1}}
+%
 % Phone number
+%
 \newcommand{\phone}[1]{\gdef\@phone{#1}}
+%
 % LinkedIn URL
+%
 \newcommand{\linkedin}[1]{\gdef\@linkedin{#1}}
 
-%\usepackage[usenames,dvipsnames]{color}
-\newcommand{\smallcaps}[1]{\textsc{\textbf{#1}}}
-\newcommand{\@namehead}[1]{\centerline{{\LARGE #1}}}
-\newcommand{\hrulegray}{%
-%{\color{Gray}\hrule}%
-}
+%\newcommand{\smallcaps}[1]{\textsc{\textbf{#1}}}
+%\newcommand{\@namehead}[1]{\centerline{{\LARGE #1}}}
+
 
 %
 % The resume header
 % Uses @fullname, @cityStateZip, @email, @phone and @linkedin
 % If necessary to have full address, create another macro.
 %
-\newcommand{\resheader}{\thispagestyle{empty}
-{\centering{\textbf{\LARGE\@fullname}} \\ %\medskip
+\newcommand{\resHeader}{\thispagestyle{empty} % Only have header on page 2 and later
+{\Centering{\textbf{\LARGE\@fullname}} \\ \medskip %
 \@cityStateZip \\ %
-\texttt{\@email}\\}
-{\small\@phone} \hfill {\small\texttt{\@linkedin}}
-%\medskip
+\texttt{\@email}\\} %
+{\small\@phone} \hfill {\small\texttt{\@linkedin}} %
 \smallskip\hrule}
-
-\newcommand{\ressection}[1]{%
-%\bigskip%
-\medskip%
-\centerline{\textbf{\large #1}}}
+%
+% A section header
+%
+\newcommand{\resSection}[1]{\medskip\textbf{\large {\centering #1\newline}}}
 
 \RequirePackage{tabto}
 %\newcommand{\rescompany}[2]{\smallskip\textbf{\large #1}\hfill{\textbf{\large #2}}\hspace*{.75in}}
@@ -46,37 +62,68 @@
 \newcommand{\rescompany}[3]{%
 %\bigskip%
 \medskip%
-{\normalsize\textbf{\MakeUppercase{#1},} #2\tabto{5.5in}\textbf{#3}}%
+{\normalsize\textbf{\MakeUppercase{#1},} #2\tabto{5.5in}\textbf{#3}}\newline%
 %\medskip%
 }
 
-%\newcommand{\resjob}[1]{\medskip\textbf{\normalsize #1}\smallskip}
+\newenvironment{resCompany}{
+\newcommand{\companyName}[1]{\gdef\@companyName{##1}}
+\newcommand{\companyLocation}[1]{\gdef\@companyLocation{##1}}
+\newcommand{\companyYearStart}[1]{\gdef\@companyYearStart{##1}}
+\newcommand{\companyYearEnd}[1]{\gdef\@companyYearEnd{##1}}
+\newcommand{\companyHeader}{   \normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart --  \@companyYearEnd}   }
+}{\relax}
 
+% \resjob{Title}{Years}
+%
+% Title line for the start  of a job description.
+% #1 - The Title of the Job
+% #2 - Year range
+%
+\newcommand{\resjob}[2]{ %
+\medskip %
+%\smallskip%
+\textbf{\normalsize #1 (#2)}\\%
+\smallskip
+}
+\newenvironment{resjobdescription}{\small}{\normalsize}
 
 \RequirePackage{enumitem}
 \setlist{itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
-\newenvironment{summarylist}{ %
+\newenvironment{resSummaryList}{ %
 %\medskip %
 \begin{itemize}[leftmargin=2em,rightmargin=2em]}{\end{itemize}}
+%
+% Accomplishments Environment
+%
 \newenvironment{accomplishments}[3]
-{\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
-\smallskip%
-{\small #3}\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
+{
+%\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
+%\smallskip%
+%{\small #3}
+\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
 {\end{itemize}}
 
 \usepackage{microtype}
 
-\usepackage{geometry}
-\geometry{letterpaper}
-\geometry{margin=1in}
 %
 % Set page header
 %
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 \fancyfoot{}
-\fancyhead[LO,LE]{\textbf{\@fullname} \hfill \@phone/\texttt{\@email} \hfill Page \thepage}
+\fancyhead[LO]{\textbf{\@fullname} \hfill \@phone/\texttt{\@email} \hfill Page \thepage}
+
 %
-\usepackage[none]{hyphenat}
-\usepackage{ragged2e}\RaggedRight
+% center environment that eliminates top and bottom spacing
+% http://latex-community.org/forum/viewtopic.php?f=5&t=1595
+%
+    \newenvironment{centered}{%
+       \begin{list}{}{%
+         \topsep0pt
+       }
+       \Centering
+       \item[]
+    }
+    {\end{list}}
 
