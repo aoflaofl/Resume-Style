@@ -11,6 +11,11 @@
 %
 \RequirePackage{ragged2e}\RaggedRight
 %
+% Turn off extra space in lists
+%
+\RequirePackage{enumitem}
+\setlist{itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+%
 % Define Resume header values
 %
 % The full name of the subject of the Resume
@@ -42,7 +47,7 @@
 % Uses @fullname, @cityStateZip, @email, @phone and @linkedin
 % If necessary to have full address, create another macro.
 %
-\newcommand{\resHeader}{ %\thispagestyle{empty} % Only have header on page 2 and later
+\newcommand{\resHeader}{\thispagestyle{empty} % Only have header on page 2 and later
 {\Centering{\textbf{\LARGE\@fullname}} \\ \medskip %
 \@cityStateZip \\ %
 \texttt{\@email}\\} %
@@ -79,6 +84,16 @@
 \newcommand{\jobYearEnd}[1]{\gdef\@jobYearEnd{####1}}
 \newcommand{\jobHeader}{\normalsize\textbf{\@jobTitle\ -- \@jobProduct \hfill \@jobYearStart --  \@jobYearEnd   }}
 \newenvironment{resJobDescription}{\small}{\normalsize}
+%
+% Accomplishments Environment
+%
+\newenvironment{jobAccomplishments}
+{
+%\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
+%\smallskip%
+%{\small #3}
+\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
+{\end{itemize}}
 }
 {\relax}
 }
@@ -106,8 +121,7 @@
 
 
 
-\RequirePackage{enumitem}
-\setlist{itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+
 \newenvironment{resSummaryList}{ %
 %\medskip %
 \begin{itemize}[leftmargin=2em,rightmargin=2em]}{\end{itemize}}
@@ -127,10 +141,10 @@
 %
 % Set page header
 %
-%\RequirePackage{fancyhdr}
-%\pagestyle{fancy}
-%\fancyfoot{}
-%\fancyhead[LO]{\textbf{\@fullname} \hfill \texttt{\@email} \hfill Page \thepage}
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyhead[LO]{\textbf{\@fullname} \hfill \texttt{\@email} \hfill Page \thepage}
 
 %
 % center environment that eliminates top and bottom spacing
