@@ -72,17 +72,25 @@
 }
 
 \newenvironment{resCompany}{
+\gdef\@companyName{}
+\gdef\@companyLocation{}
+\gdef\@companyYearStart{}
+\gdef\@companyYearEnd{}
 \newcommand{\companyName}[1]{\gdef\@companyName{##1}}
 \newcommand{\companyLocation}[1]{\gdef\@companyLocation{##1}}
 \newcommand{\companyYearStart}[1]{\gdef\@companyYearStart{##1}}
 \newcommand{\companyYearEnd}[1]{\gdef\@companyYearEnd{##1}}
 \newcommand{\companyHeader}{   \normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart --  \@companyYearEnd}   }
 \newenvironment{resJob}{
+\gdef\@jobTitle{}
+\gdef\@jobProduct{}
+\gdef\@jobYearStart{}
+\gdef\@jobYearEnd{}
 \newcommand{\jobTitle}[1]{\gdef\@jobTitle{####1}}
 \newcommand{\jobProduct}[1]{\gdef\@jobProduct{####1}}
 \newcommand{\jobYearStart}[1]{\gdef\@jobYearStart{####1}}
 \newcommand{\jobYearEnd}[1]{\gdef\@jobYearEnd{####1}}
-\newcommand{\jobHeader}{\normalsize\textbf{\@jobTitle\ -- \@jobProduct \hfill \@jobYearStart --  \@jobYearEnd   }}
+\newcommand{\jobHeader}{\normalsize\textbf{\@jobTitle{} -- \@jobProduct{} \quad (\@jobYearStart{} --  \@jobYearEnd{})}}
 \newenvironment{resJobDescription}{\small}{\normalsize}
 %
 % Accomplishments Environment
