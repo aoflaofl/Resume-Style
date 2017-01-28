@@ -1,6 +1,11 @@
 \ProvidesPackage{resume}
+%
 % The closest thing to lint for LaTeX
 \RequirePackage[l2tabu, orthodox]{nag}
+%
+% For the boolean tools
+%
+\RequirePackage{etoolbox}
 %
 % Turn off hyphenation to make it look like Word
 %
@@ -16,6 +21,17 @@
 \RequirePackage{enumitem}
 \setlist{itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
 %
+% Improve the feel of the document
+%
+\RequirePackage{microtype}
+%
+% Need to calculate a length
+%
+\RequirePackage{calc}% http://ctan.org/pkg/calc
+%
+% Lengths used in the resume
+%
+\newlength{\jobdescriptionlength}\setlength{\jobdescriptionlength}{\textwidth-1em}
 % Define Resume header values
 %
 % The full name of the subject of the Resume
@@ -48,103 +64,59 @@
 % If necessary to have full address, create another macro.
 %
 \newcommand{\resHeader}{\thispagestyle{empty} % Only have header on page 2 and later
-{\Centering{\textbf{\LARGE\@fullname}} \\ \medskip %
+{\Centering{\textbf{\LARGE\@fullname}} \\  %
 \@cityStateZip \\ %
 \texttt{\@email}\\} %
 {\small\@phone} \hfill {\small\texttt{\@linkedin}} %
-\smallskip\hrule}
+\medskip\hrule}
 %
 % A section header
 %
-\newcommand{\resSection}[1]{\medskip\textbf{\large {\centering #1\newline}}}
-
-\RequirePackage{tabto}
-%\newcommand{\rescompany}[2]{\smallskip\textbf{\large #1}\hfill{\textbf{\large #2}}\hspace*{.75in}}
-% Header line for a company
-% #1 - Company Name
-% #2 - City, St
-% #3 - Year range
-\newcommand{\rescompany}[3]{%
-%\bigskip%
-\medskip%
-{\normalsize\textbf{\MakeUppercase{#1},} #2\tabto{5.5in}\textbf{#3}}\newline%
-%\medskip%
-}
+\newcommand{\resSection}[1]{\bigskip\textbf{\large {\centering #1\newline}}}
 
 \newenvironment{resCompany}{
-\gdef\@companyName{}
-\gdef\@companyLocation{}
-\gdef\@companyYearStart{}
-\gdef\@companyYearEnd{}
-\newcommand{\companyName}[1]{\gdef\@companyName{##1}}
-\newcommand{\companyLocation}[1]{\gdef\@companyLocation{##1}}
-\newcommand{\companyYearStart}[1]{\gdef\@companyYearStart{##1}}
-\newcommand{\companyYearEnd}[1]{\gdef\@companyYearEnd{##1}}
-\newcommand{\companyHeader}{   \normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart --  \@companyYearEnd}   }
+\newcommand{\@companyName}{\relax}
+\newcommand{\@companyLocation}{\relax}
+\newcommand{\@companyYearStart}{\relax}
+\newcommand{\@companyYearEnd}{\relax}
+\newcommand{\companyName}[1]{\renewcommand{\@companyName}{##1}}
+\newcommand{\companyLocation}[1]{\renewcommand{\@companyLocation}{##1}}
+\newcommand{\companyYearStart}[1]{\renewcommand{\@companyYearStart}{##1}}
+\newcommand{\companyYearEnd}[1]{\renewcommand{\@companyYearEnd}{##1}}
+\newcommand{\companyHeader}{\medskip\normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart --  \@companyYearEnd}   }
 \newenvironment{resJob}{
-\gdef\@jobTitle{}
-\gdef\@jobProduct{}
-\gdef\@jobYearStart{}
-\gdef\@jobYearEnd{}
-\newcommand{\jobTitle}[1]{\gdef\@jobTitle{####1}}
-\newcommand{\jobProduct}[1]{\gdef\@jobProduct{####1}}
-\newcommand{\jobYearStart}[1]{\gdef\@jobYearStart{####1}}
-\newcommand{\jobYearEnd}[1]{\gdef\@jobYearEnd{####1}}
-\newcommand{\jobHeader}{\normalsize\textbf{\@jobTitle{} -- \@jobProduct{} \quad (\@jobYearStart{} --  \@jobYearEnd{})}}
-\newenvironment{resJobDescription}{\small}{\normalsize}
+\newcommand{\@jobTitle}{\relax}
+\newcommand{\@jobProduct}{\relax}\newtoggle{product}\togglefalse{product}
+\newcommand{\@jobYearStart}{\relax}\newtoggle{yearstart}\togglefalse{yearstart}
+\newcommand{\@jobYearEnd}{\relax}
+\newcommand{\jobTitle}[1]{\renewcommand{\@jobTitle}{####1}}
+\newcommand{\jobProduct}[1]{\renewcommand{\@jobProduct}{####1}\toggletrue{product}}
+\newcommand{\jobYearStart}[1]{\renewcommand{\@jobYearStart}{####1}\toggletrue{yearstart}}
+\newcommand{\jobYearEnd}[1]{\renewcommand{\@jobYearEnd}{####1}}
+\newcommand{\jobHeader}{\smallskip\normalsize\textbf{\@jobTitle{} % 
+\iftoggle{product} %
+{-- \@jobProduct%
+}{} %
+\quad %
+\iftoggle{yearstart} %
+{(\@jobYearStart{} --  \@jobYearEnd{})} %
+{} %
+%
+}}
+\newenvironment{resJobDescription}{ %
+\medskip\hspace{1em}\small\begin{minipage}[c]{\jobdescriptionlength}}{\end{minipage}\normalsize\medskip} %
 %
 % Accomplishments Environment
 %
-\newenvironment{jobAccomplishments}
-{
-%\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
-%\smallskip%
-%{\small #3}
-\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
-{\end{itemize}}
-}
+\newenvironment{jobAccomplishments}{\begin{itemize}[leftmargin=2em]}{\end{itemize}
+}}
 {\relax}
 }
 {\relax}
 
+\newenvironment{resSummaryList}{\begin{itemize}[leftmargin=2em,rightmargin=0em]}{\end{itemize}}
 
 
-
-% \resjob{Title}{Years}
-%
-% Title line for the start  of a job description.
-% #1 - The Title of the Job
-% #2 - Year range
-%
-\newcommand{\resjob}[2]{ %
-\medskip %
-%\smallskip%
-\textbf{\normalsize #1 (#2)}\\%
-\smallskip
-}
-\newenvironment{resjobdescription}{\small}{\normalsize}
-
-
-
-
-
-
-
-\newenvironment{resSummaryList}{ %
-%\medskip %
-\begin{itemize}[leftmargin=2em,rightmargin=2em]}{\end{itemize}}
-%
-% Accomplishments Environment
-%
-\newenvironment{accomplishments}[3]
-{
-%\smallskip\textbf{{\normalsize #1 \hfill #2}} \\
-%\smallskip%
-%{\small #3}
-\smallskip\nopagebreak\begin{itemize}[leftmargin=2em]}
-{\end{itemize}}
-
-\usepackage{microtype}
 
 %
 % Set page header
