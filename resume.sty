@@ -83,7 +83,7 @@
 \newcommand{\companyLocation}[1]{\renewcommand{\@companyLocation}{##1}}
 \newcommand{\companyYearStart}[1]{\renewcommand{\@companyYearStart}{##1}}
 \newcommand{\companyYearEnd}[1]{\renewcommand{\@companyYearEnd}{##1}}
-\newcommand{\companyHeader}{\medskip\normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart --  \@companyYearEnd}   }
+\newcommand{\companyHeader}{\medskip\normalsize\textbf{\MakeUppercase{\@companyName}}, \@companyLocation \hfill \textbf{\@companyYearStart{} --  \@companyYearEnd}   }
 \newenvironment{resJob}{
 \newcommand{\@jobTitle}{\relax}
 \newcommand{\@jobProduct}{\relax}\newtoggle{product}\togglefalse{product}
@@ -104,7 +104,7 @@
 %
 }}
 \newenvironment{resJobDescription}{ %
-\medskip\hspace{1em}\small\begin{minipage}[c]{\jobdescriptionlength}}{\end{minipage}\normalsize\medskip} %
+\medskip\hspace{1em}\begin{minipage}[c]{\jobdescriptionlength}\small}{\end{minipage}\medskip} %
 %
 % Accomplishments Environment
 %
